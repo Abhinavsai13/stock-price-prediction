@@ -52,13 +52,14 @@ def build_dataset(ticker, start, end, use_adj=True):
     return tk, df
 
 # ---------- Main Function ----------
-if __name__ == "__main__":
-    start = "2015-01-01"
-    end   = "2025-08-22"
-    tk, ds = build_dataset("ONGC.NS", start, end, use_adj=True)
-    out = f"Dataset/{tk}_daily_technical.csv"
-    # Round off to 6 decimal's 
+def run_technical_indicators(ticker, start, end, out_dir="Dataset", use_adj=True):
+    tk, ds = build_dataset(ticker, start, end, use_adj)
+    out = f"{out_dir}/{tk}_daily_technical.csv"
     ds.to_csv(out, index_label="Date", float_format="%.6f")
     print("Saved:", out)
     print("First valid row date:", ds.index[0].date())
     print(ds.head(3))
+    return out
+
+if __name__ == "__main__":
+    run_technical_indicators("SBIN.NS", "2015-01-01", "2025-08-22")
